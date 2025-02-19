@@ -32,14 +32,14 @@ export function Mermaid(props: { code: string }) {
   useEffect(() => {
     if (props.code && ref.current) {
       mermaid
-        .run({
-          nodes: [ref.current],
-          suppressErrors: true,
-        })
-        .catch((e) => {
-          setHasError(true);
-          console.error("[Mermaid] ", e.message);
-        });
+          .run({
+            nodes: [ref.current],
+            suppressErrors: true,
+          })
+          .catch((e) => {
+            setHasError(true);
+            console.error("[Mermaid] ", e.message);
+          });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.code]);
@@ -57,17 +57,17 @@ export function Mermaid(props: { code: string }) {
   }
 
   return (
-    <div
-      className={clsx("no-dark", "mermaid")}
-      style={{
-        cursor: "pointer",
-        overflow: "auto",
-      }}
-      ref={ref}
-      onClick={() => viewSvgInNewWindow()}
-    >
-      {props.code}
-    </div>
+      <div
+          className={clsx("no-dark", "mermaid")}
+          style={{
+            cursor: "pointer",
+            overflow: "auto",
+          }}
+          ref={ref}
+          onClick={() => viewSvgInNewWindow()}
+      >
+        {props.code}
+      </div>
   );
 }
 
@@ -91,9 +91,9 @@ export function PreCode(props: { children: any }) {
     if (htmlDom) {
       setHtmlCode((htmlDom as HTMLElement).innerText);
     } else if (
-      refText?.startsWith("<!DOCTYPE") ||
-      refText?.startsWith("<svg") ||
-      refText?.startsWith("<?xml")
+        refText?.startsWith("<!DOCTYPE") ||
+        refText?.startsWith("<svg") ||
+        refText?.startsWith("<?xml")
     ) {
       setHtmlCode(refText);
     }
@@ -101,13 +101,13 @@ export function PreCode(props: { children: any }) {
 
   const config = useAppConfig();
   const enableArtifacts =
-    session.mask?.enableArtifacts !== false && config.enableArtifacts;
+      session.mask?.enableArtifacts !== false && config.enableArtifacts;
 
   //Wrap the paragraph for plain-text
   useEffect(() => {
     if (ref.current) {
       const codeElements = ref.current.querySelectorAll(
-        "code",
+          "code",
       ) as NodeListOf<HTMLElement>;
       const wrapLanguages = [
         "",
@@ -131,45 +131,45 @@ export function PreCode(props: { children: any }) {
   }, []);
 
   return (
-    <>
+      <>
       <pre ref={ref}>
         <span
-          className="copy-code-button"
-          onClick={() => {
-            if (ref.current) {
-              copyToClipboard(
-                ref.current.querySelector("code")?.innerText ?? "",
-              );
-            }
-          }}
+            className="copy-code-button"
+            onClick={() => {
+              if (ref.current) {
+                copyToClipboard(
+                    ref.current.querySelector("code")?.innerText ?? "",
+                );
+              }
+            }}
         ></span>
         {props.children}
       </pre>
-      {mermaidCode.length > 0 && (
-        <Mermaid code={mermaidCode} key={mermaidCode} />
-      )}
-      {htmlCode.length > 0 && enableArtifacts && (
-        <FullScreen className="no-dark html" right={70}>
-          <ArtifactsShareButton
-            style={{ position: "absolute", right: 20, top: 10 }}
-            getCode={() => htmlCode}
-          />
-          <IconButton
-            style={{ position: "absolute", right: 120, top: 10 }}
-            bordered
-            icon={<ReloadButtonIcon />}
-            shadow
-            onClick={() => previewRef.current?.reload()}
-          />
-          <HTMLPreview
-            ref={previewRef}
-            code={htmlCode}
-            autoHeight={!document.fullscreenElement}
-            height={!document.fullscreenElement ? 600 : height}
-          />
-        </FullScreen>
-      )}
-    </>
+        {mermaidCode.length > 0 && (
+            <Mermaid code={mermaidCode} key={mermaidCode} />
+        )}
+        {htmlCode.length > 0 && enableArtifacts && (
+            <FullScreen className="no-dark html" right={70}>
+              <ArtifactsShareButton
+                  style={{ position: "absolute", right: 20, top: 10 }}
+                  getCode={() => htmlCode}
+              />
+              <IconButton
+                  style={{ position: "absolute", right: 120, top: 10 }}
+                  bordered
+                  icon={<ReloadButtonIcon />}
+                  shadow
+                  onClick={() => previewRef.current?.reload()}
+              />
+              <HTMLPreview
+                  ref={previewRef}
+                  code={htmlCode}
+                  autoHeight={!document.fullscreenElement}
+                  height={!document.fullscreenElement ? 600 : height}
+              />
+            </FullScreen>
+        )}
+      </>
   );
 }
 
@@ -178,7 +178,7 @@ function CustomCode(props: { children: any; className?: string }) {
   const session = chatStore.currentSession();
   const config = useAppConfig();
   const enableCodeFold =
-    session.mask?.enableCodeFold !== false && config.enableCodeFold;
+      session.mask?.enableCodeFold !== false && config.enableCodeFold;
 
   const ref = useRef<HTMLPreElement>(null);
   const [collapsed, setCollapsed] = useState(true);
@@ -198,51 +198,51 @@ function CustomCode(props: { children: any; className?: string }) {
   const renderShowMoreButton = () => {
     if (showToggle && enableCodeFold && collapsed) {
       return (
-        <div
-          className={clsx("show-hide-button", {
-            collapsed,
-            expanded: !collapsed,
-          })}
-        >
-          <button onClick={toggleCollapsed}>{Locale.NewChat.More}</button>
-        </div>
+          <div
+              className={clsx("show-hide-button", {
+                collapsed,
+                expanded: !collapsed,
+              })}
+          >
+            <button onClick={toggleCollapsed}>{Locale.NewChat.More}</button>
+          </div>
       );
     }
     return null;
   };
   return (
-    <>
-      <code
-        className={clsx(props?.className)}
-        ref={ref}
-        style={{
-          maxHeight: enableCodeFold && collapsed ? "400px" : "none",
-          overflowY: "hidden",
-        }}
-      >
-        {props.children}
-      </code>
+      <>
+        <code
+            className={clsx(props?.className)}
+            ref={ref}
+            style={{
+              maxHeight: enableCodeFold && collapsed ? "400px" : "none",
+              overflowY: "hidden",
+            }}
+        >
+          {props.children}
+        </code>
 
-      {renderShowMoreButton()}
-    </>
+        {renderShowMoreButton()}
+      </>
   );
 }
 
 function escapeBrackets(text: string) {
   const pattern =
-    /(```[\s\S]*?```|`.*?`)|\\\[([\s\S]*?[^\\])\\\]|\\\((.*?)\\\)/g;
+      /(```[\s\S]*?```|`.*?`)|\\\[([\s\S]*?[^\\])\\\]|\\\((.*?)\\\)/g;
   return text.replace(
-    pattern,
-    (match, codeBlock, squareBracket, roundBracket) => {
-      if (codeBlock) {
-        return codeBlock;
-      } else if (squareBracket) {
-        return `$$${squareBracket}$$`;
-      } else if (roundBracket) {
-        return `$${roundBracket}$`;
-      }
-      return match;
-    },
+      pattern,
+      (match, codeBlock, squareBracket, roundBracket) => {
+        if (codeBlock) {
+          return codeBlock;
+        } else if (squareBracket) {
+          return `$$${squareBracket}$$`;
+        } else if (roundBracket) {
+          return `$${roundBracket}$`;
+        }
+        return match;
+      },
   );
 }
 
@@ -253,18 +253,18 @@ function tryWrapHtmlCode(text: string) {
     return text;
   }
   return text
-    .replace(
-      /([`]*?)(\w*?)([\n\r]*?)(<!DOCTYPE html>)/g,
-      (match, quoteStart, lang, newLine, doctype) => {
-        return !quoteStart ? "\n```html\n" + doctype : match;
-      },
-    )
-    .replace(
-      /(<\/body>)([\r\n\s]*?)(<\/html>)([\n\r]*)([`]*)([\n\r]*?)/g,
-      (match, bodyEnd, space, htmlEnd, newLine, quoteEnd) => {
-        return !quoteEnd ? bodyEnd + space + htmlEnd + "\n```\n" : match;
-      },
-    );
+      .replace(
+          /([`]*?)(\w*?)([\n\r]*?)(<!DOCTYPE html>)/g,
+          (match, quoteStart, lang, newLine, doctype) => {
+            return !quoteStart ? "\n```html\n" + doctype : match;
+          },
+      )
+      .replace(
+          /(<\/body>)([\r\n\s]*?)(<\/html>)([\n\r]*)([`]*)([\n\r]*?)/g,
+          (match, bodyEnd, space, htmlEnd, newLine, quoteEnd) => {
+            return !quoteEnd ? bodyEnd + space + htmlEnd + "\n```\n" : match;
+          },
+      );
 }
 
 function _MarkDownContent(props: { content: string }) {
@@ -273,80 +273,80 @@ function _MarkDownContent(props: { content: string }) {
   }, [props.content]);
 
   return (
-    <ReactMarkdown
-      remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
-      rehypePlugins={[
-        RehypeKatex,
-        [
-          RehypeHighlight,
-          {
-            detect: false,
-            ignoreMissing: true,
-          },
-        ],
-      ]}
-      components={{
-        pre: PreCode,
-        code: CustomCode,
-        p: (pProps) => <p {...pProps} dir="auto" />,
-        a: (aProps) => {
-          const href = aProps.href || "";
-          if (/\.(aac|mp3|opus|wav)$/.test(href)) {
-            return (
-              <figure>
-                <audio controls src={href}></audio>
-              </figure>
-            );
-          }
-          if (/\.(3gp|3g2|webm|ogv|mpeg|mp4|avi)$/.test(href)) {
-            return (
-              <video controls width="99.9%">
-                <source src={href} />
-              </video>
-            );
-          }
-          const isInternal = /^\/#/i.test(href);
-          const target = isInternal ? "_self" : aProps.target ?? "_blank";
-          return <a {...aProps} target={target} />;
-        },
-      }}
-    >
-      {escapedContent}
-    </ReactMarkdown>
+      <ReactMarkdown
+          remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
+          rehypePlugins={[
+            RehypeKatex,
+            [
+              RehypeHighlight,
+              {
+                detect: false,
+                ignoreMissing: true,
+              },
+            ],
+          ]}
+          components={{
+            pre: PreCode,
+            code: CustomCode,
+            p: (pProps) => <p {...pProps} dir="auto" />,
+            a: (aProps) => {
+              const href = aProps.href || "";
+              if (/\.(aac|mp3|opus|wav)$/.test(href)) {
+                return (
+                    <figure>
+                      <audio controls src={href}></audio>
+                    </figure>
+                );
+              }
+              if (/\.(3gp|3g2|webm|ogv|mpeg|mp4|avi)$/.test(href)) {
+                return (
+                    <video controls width="99.9%">
+                      <source src={href} />
+                    </video>
+                );
+              }
+              const isInternal = /^\/#/i.test(href);
+              const target = isInternal ? "_self" : aProps.target ?? "_blank";
+              return <a {...aProps} target={target} />;
+            },
+          }}
+      >
+        {escapedContent}
+      </ReactMarkdown>
   );
 }
 
 export const MarkdownContent = React.memo(_MarkDownContent);
 
 export function Markdown(
-  props: {
-    content: string;
-    loading?: boolean;
-    fontSize?: number;
-    fontFamily?: string;
-    parentRef?: RefObject<HTMLDivElement>;
-    defaultShow?: boolean;
-  } & React.DOMAttributes<HTMLDivElement>,
+    props: {
+      content: string;
+      loading?: boolean;
+      fontSize?: number;
+      fontFamily?: string;
+      parentRef?: RefObject<HTMLDivElement>;
+      defaultShow?: boolean;
+    } & React.DOMAttributes<HTMLDivElement>,
 ) {
   const mdRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      className="markdown-body"
-      style={{
-        fontSize: `${props.fontSize ?? 14}px`,
-        fontFamily: props.fontFamily || "inherit",
-      }}
-      ref={mdRef}
-      onContextMenu={props.onContextMenu}
-      onDoubleClickCapture={props.onDoubleClickCapture}
-      dir="auto"
-    >
-      {props.loading ? (
-        <LoadingIcon />
-      ) : (
-        <MarkdownContent content={props.content} />
-      )}
-    </div>
+      <div
+          className="markdown-body"
+          style={{
+            fontSize: `${props.fontSize ?? 14}px`,
+            fontFamily: props.fontFamily || "inherit",
+          }}
+          ref={mdRef}
+          onContextMenu={props.onContextMenu}
+          onDoubleClickCapture={props.onDoubleClickCapture}
+          dir="auto"
+      >
+        {props.loading ? (
+            <LoadingIcon />
+        ) : (
+            <MarkdownContent content={props.content} />
+        )}
+      </div>
   );
 }
