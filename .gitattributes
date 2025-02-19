@@ -1,2 +1,2 @@
-# 将 your/file/path 替换为你的实际文件路径（例如 app/layout.tsx）
 app/layout.tsx merge=ours
+.eslintrc.json
