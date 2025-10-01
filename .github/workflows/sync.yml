@@ -18,7 +18,9 @@ jobs:
       # Step 1: run a standard checkout action
       - name: Checkout target repo
         uses: actions/checkout@v3
-
+      # 新添加的步骤：配置合并驱动程序
+      - name: Configure merge driver
+        run: git config --local merge.ours.driver true
       # Step 2: run the sync action
       - name: Sync upstream changes
         id: sync
